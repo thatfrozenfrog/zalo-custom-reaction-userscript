@@ -15,7 +15,7 @@
 	const reactions = [
 		{type: 100, icon: "👏", name: "clap", class: "emoji-sizer emoji-outer", bgPos: "80% 12.5%"},
 		{type: 101, icon: "🎉", name: "huh", class: "emoji-sizer emoji-outer", bgPos: "74% 62.5%"},
-    {type: 102, icon: "hello", name: "text", class: "emoji-sizer emoji-outer", bgPos: "84% 82.5%"}
+    	{type: 102, icon: "hello", name: "text", class: "emoji-sizer emoji-outer", bgPos: "84% 82.5%"}
 	];
 
 	const observer = new MutationObserver(mutations => mutations.forEach(m => {
@@ -94,7 +94,7 @@
 
 	const style = document.createElement("style");
 	style.textContent = `
-		.reaction-emoji-list { display: flex !important; flex-wrap: wrap !important; max-width: 300px !important; justify-content: center !important; }
+		.reaction-emoji-list { display: flex !important; max-width: 300px !important; justify-content: center !important; }
 		.emoji-list-wrapper { width: auto !important; transition: opacity 0.2s ease-in-out !important; }
 		.reaction-emoji-icon:hover { transform: scale(1.2) !important; transition: transform 0.2s ease-in-out !important; }
 		[data-custom="true"] { position: relative; }
