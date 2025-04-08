@@ -15,7 +15,7 @@
 	const reactions = [
 		{type: 100, icon: "👏", name: "clap", class: "emoji-sizer emoji-outer", bgPos: "80% 12.5%"},
 		{type: 101, icon: "🎉", name: "huh", class: "emoji-sizer emoji-outer", bgPos: "74% 62.5%"},
-    {type: 102, icon: "hello", name: "text", class: "emoji-sizer emoji-outer", bgPos: "84% 82.5%"}
+    	{type: 102, icon: "hello", name: "text", class: "emoji-sizer emoji-outer", bgPos: "84% 82.5%"}
 	];
 
 	const observer = new MutationObserver(mutations => mutations.forEach(m => {
@@ -30,13 +30,13 @@
 							const id = btn?.id.replace("reaction-btn-", "");
 							reactions.forEach((react, idx) => {
 								const div = document.createElement("div");
-								const span = document.createElement("span");
+								const divEmoji = document.createElement("span");
 								div.className = "reaction-emoji-icon";
 								div.setAttribute("data-custom", "true");
 								div.style.animationDelay = `${20 * (idx + 7)}ms`;
-								span.className = react.class;
-								span.style.cssText = `background: url("assets/emoji.1e7786c93c8a0c1773f165e2de2fd129.png?v=20180604") ${react.bgPos} / 5100% no-repeat; margin: -1px; position: relative; top: 2px`;
-								div.appendChild(span);
+                                divEmoji.innerText = react.icon;
+                                divEmoji.style.cssText = "margin: -1px; position: relative; top: 2px; font-size: 20px;";
+								div.appendChild(divEmoji);
 								list.appendChild(div);
 								div.addEventListener("click", e => {
 									e.preventDefault();
@@ -94,7 +94,7 @@
 
 	const style = document.createElement("style");
 	style.textContent = `
-		.reaction-emoji-list { display: flex !important; flex-wrap: wrap !important; max-width: 300px !important; justify-content: center !important; }
+		.reaction-emoji-list { display: flex !important; max-width: 300px !important; justify-content: center !important; }
 		.emoji-list-wrapper { width: auto !important; transition: opacity 0.2s ease-in-out !important; }
 		.reaction-emoji-icon:hover { transform: scale(1.2) !important; transition: transform 0.2s ease-in-out !important; }
 		[data-custom="true"] { position: relative; }
