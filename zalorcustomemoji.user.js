@@ -8,6 +8,7 @@
 // @match        https://chat.zalo.me/*
 // @grant        none
 // @run-at       document-idle
+// @downloadURL  https://github.com/anhwaivo/zalo-custom-reaction-userscript/raw/refs/heads/main/zalorcustomemoji.user.js
 // ==/UserScript==
 
 (function() {
