@@ -11,5 +11,5 @@ này nếu có thêm thời gian rảnh (dự định là sẽ có) thì sẽ th
 
 ## Contributors
 
-- [meohunter](https://github.com/MeooHunter) : add textbox
+- [meohunter](https://github.com/MeooHunter) : add textbox (rảnh rồi edit mới merge)
 - [kennex666](https://github.com/kennex666) : fix css stuffs
