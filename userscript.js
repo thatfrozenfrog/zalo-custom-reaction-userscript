@@ -30,13 +30,13 @@
 							const id = btn?.id.replace("reaction-btn-", "");
 							reactions.forEach((react, idx) => {
 								const div = document.createElement("div");
-								const span = document.createElement("span");
+								const divEmoji = document.createElement("span");
 								div.className = "reaction-emoji-icon";
 								div.setAttribute("data-custom", "true");
 								div.style.animationDelay = `${20 * (idx + 7)}ms`;
-								span.className = react.class;
-								span.style.cssText = `background: url("assets/emoji.1e7786c93c8a0c1773f165e2de2fd129.png?v=20180604") ${react.bgPos} / 5100% no-repeat; margin: -1px; position: relative; top: 2px`;
-								div.appendChild(span);
+                                divEmoji.innerText = react.icon;
+                                divEmoji.style.cssText = "margin: -1px; position: relative; top: 2px; font-size: 20px;";
+								div.appendChild(divEmoji);
 								list.appendChild(div);
 								div.addEventListener("click", e => {
 									e.preventDefault();
