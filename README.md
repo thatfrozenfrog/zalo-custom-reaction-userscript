@@ -13,3 +13,4 @@ zalỏ custom reaction userscript
 
 - [meohunter](https://github.com/MeooHunter) : add textbox 
 - [kennex666](https://github.com/kennex666) : fix css stuffs
+- [dacsang97](https://github.com/dacsang97) : emoji picker
