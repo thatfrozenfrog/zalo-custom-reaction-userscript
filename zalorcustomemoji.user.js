@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Zalo Custom Reactions
-// @version      1.7
+// @version      1.8
 // @description  Zalo web custom reaction
 // @author       Anhwaivo
-// @maintainer   Kennex666 (UI/UX), Meohunter (TextBox)
+// @maintainer   Kennex666 (UI/UX), Meohunter (TextBox), dacsang97 (Emoji Picker)
 // @match        https://*.zalo.me/*
 // @match        https://chat.zalo.me/*
 // @grant        none
