@@ -1,5 +1,7 @@
 zalỏ custom reaction userscript
 
+[about zalo custom reaction](https://web.facebook.com/share/p/1V5uSkRncu/)
+
 ## HDSD
 
 1. Cài một trong hai trình chạy userscript:
