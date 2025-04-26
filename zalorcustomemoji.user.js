@@ -672,8 +672,8 @@
 								if (react.icon.length > 2) {
 									div.className += " reaction-emoji-text";
 								}
-	
 								div.setAttribute("data-custom", "true");
+								div.style.position = "relative";
 								div.style.animationDelay = `${50 * (idx + 7)}ms`;
 								
 								if (react.name === "send_custom") {
@@ -685,27 +685,51 @@
 									}
 									divEmoji.innerText = react.icon;
 								}
-								
 								div.appendChild(divEmoji);
+								
+								if (react.name !== "send_custom") {
+									const removeBtn = document.createElement("div");
+									removeBtn.textContent = "×";
+									removeBtn.style.cssText = `
+										position: absolute;
+										top: -4px;
+										right: -4px;
+										background: #f44336;
+										color: white;
+										font-size: 10px;
+										border-radius: 50%;
+										width: 16px;
+										height: 16px;
+										display: flex;
+										align-items: center;
+										justify-content: center;
+										cursor: pointer;
+									`;
+									removeBtn.addEventListener("click", e => {
+										e.stopPropagation();
+										removeCustomReaction(react);
+										div.remove();
+									});
+									div.appendChild(removeBtn);
+								}
+								
 								list.appendChild(div);
+								
 								div.addEventListener("click", e => {
 									e.preventDefault();
 									e.stopPropagation();
-									
 									if (react.name === "send_custom") {
 										if (!window.textInputPopup) {
 											window.textInputPopup = createTextInputPopup();
 										}
-										
 										window.textInputPopup.show();
-										
 										window.currentReactionContext = { wrapper, id };
-										
 										window.textInputPopup.confirmButton.onclick = () => {
 											const customText = window.textInputPopup.input.value.trim();
 											if (customText) {
-												// Áp dụng nén nếu checkbox được chọn
-												const finalText = window.textInputPopup.compressionCheckbox.checked ? compressText(customText) : customText;
+												const finalText = window.textInputPopup.compressionCheckbox.checked
+													? compressText(customText)
+													: customText;
 												const customReaction = {
 													...react,
 													icon: finalText,
@@ -716,10 +740,8 @@
 												window.textInputPopup.hide();
 											}
 										};
-										
 										return;
 									}
-									
 									sendReaction(wrapper, id, react);
 								});
 							});
@@ -781,7 +803,22 @@
 			}
 		}
 	}
-	
+	function removeCustomReaction(react) {
+		try {
+			const stored = localStorage.getItem("recentCustomReactions");
+			if (stored) {
+				let arr = JSON.parse(stored);
+				arr = arr.filter(r => r.type !== react.type);
+				localStorage.setItem("recentCustomReactions", JSON.stringify(arr));
+			}
+		} catch (e) {
+			console.error("Error removing custom reaction", e);
+		}
+		const index = reactions.findIndex(r => r.type === react.type);
+		if (index !== -1) {
+			reactions.splice(index, 1);
+		}
+	}
 	function initReactions() {
 		if (window.S?.default) {
 			if (!window.S.default.reactionMsgInfo.some(r => r.rType >= 100)) {
