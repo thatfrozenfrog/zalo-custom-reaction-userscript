@@ -1,14 +1,14 @@
 // ==UserScript==
-// @name         Zalo Custom Reactions
-// @version      1.9
-// @description  Zalo web custom reaction
-// @author       
-// @maintainer   
+// @name         Zalo Web Custom Reaction
+// @version      1.9.1
+// @description  Custom reaction and reaction utility for Zalo Web
+// @author       Anhwaivo
+// @maintainer   thatfrozenfrog, Kennex666 (UI/UX), Meohunter (TextBox), dacsang97 (Emoji Picker)
 // @match        https://*.zalo.me/*
 // @match        https://chat.zalo.me/*
 // @grant        none
 // @run-at       document-idle
-// @downloadURL  
+// @downloadURL  https://github.com/thatfrozenfrog/zalo-custom-reaction-userscript/raw/refs/heads/main/zalorcustomemoji.user.js
 // ==/UserScript==
 
 (function() {
@@ -418,6 +418,34 @@
 			}
 		});
 		
+
+		const countContainer = document.createElement("div");
+		countContainer.style.cssText = "margin-top: 10px; display: flex; align-items: center; gap: 8px;";
+		
+		const countLabel = document.createElement("label");
+		countLabel.textContent = "Số lần:";
+		countLabel.style.cssText = "font-size: 14px; color: #333;";
+		
+		const countInput = document.createElement("input");
+		countInput.type = "number";
+		countInput.value = "1";
+		countInput.min = "1";
+		countInput.style.cssText = `
+			width: 60px;
+			padding: 6px 8px;
+			border: 2px solid #e0e0e0;
+			border-radius: 6px;
+			font-size: 14px;
+			outline: none;
+		`;
+		countInput.addEventListener("focus", () => { countInput.style.borderColor = "#2196F3"; });
+		countInput.addEventListener("blur", () => { countInput.style.borderColor = "#e0e0e0"; });
+		
+		countContainer.appendChild(countLabel);
+		countContainer.appendChild(countInput);
+		inputContainer.appendChild(countContainer);
+
+
 		// Thêm preview
 		const previewContainer = document.createElement("div");
 		previewContainer.style.cssText = "margin-top: 5px; display: flex; flex-direction: column; gap: 5px;";
@@ -584,14 +612,16 @@
 			popup, 
 			input, 
 			confirmButton,
-			compressionCheckbox, // Thêm để sử dụng trong observer
+			compressionCheckbox,
+			countInput, 
 			show: () => {
 				popup.style.display = "flex";
 				overlay.style.display = "block";
 				input.value = "";
-				charCounter.textContent = "0/15";
+				charCounter.textContent = "0/20";
 				previewText.textContent = "";
-				compressionCheckbox.checked = false; // Reset checkbox
+				compressionCheckbox.checked = false;
+				countInput.value = "1"; 
 				input.focus();
 			},
 			hide: hidePopup,
@@ -726,6 +756,7 @@
 										window.currentReactionContext = { wrapper, id };
 										window.textInputPopup.confirmButton.onclick = () => {
 											const customText = window.textInputPopup.input.value.trim();
+											const times = parseInt(window.textInputPopup.countInput.value) || 1;
 											if (customText) {
 												const finalText = window.textInputPopup.compressionCheckbox.checked
 													? compressText(customText)
@@ -736,7 +767,18 @@
 													type: simpleHash(finalText)
 												};
 												RecentlyReaction.add(finalText);
-												sendReaction(wrapper, id, customReaction);
+												
+												const maxAtOnce = 10;
+												let sent = 0;
+												const sendChunk = () => {
+													for (let i = 0; i < maxAtOnce && sent < times; i++, sent++) {
+														sendReaction(window.currentReactionContext.wrapper, window.currentReactionContext.id, customReaction);
+													}
+													if (sent < times) {
+														setTimeout(sendChunk, 500);
+													}
+												};
+												sendChunk();
 												window.textInputPopup.hide();
 											}
 										};
